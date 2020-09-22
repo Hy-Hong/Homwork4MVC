@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     let cellID = "cellID"
-    let cellSpacingHeight: CGFloat = 5
+    let cellSpacingHeightHeader: CGFloat = 45
     
     let fruitObj = Fruit(name: "", description: "", profile: "")
     
@@ -21,10 +21,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: cellID)
+//        tableView.register(TableViewCell.self, forCellReuseIdentifier: cellID)
         
         tableView.rowHeight = UITableView.automaticDimension
-//        tableView.estimatedRowHeight = 100
     }
 
 }
@@ -32,6 +31,7 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        tableView.backgroundColor = UIColor.blue
         
         if section == 0 {
             return "Sweet Fruits"
@@ -43,8 +43,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return "Vegetables"
     }
     
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return cellSpacingHeight
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return cellSpacingHeightHeader
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,21 +67,40 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellID)
+        //defualt cell
+//        let cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellID)
+        
+//        if indexPath.section == 0 {
+//            cell.textLabel?.text = fruitObj.sweetFruits()[indexPath.row].name
+//            cell.detailTextLabel?.text = fruitObj.sweetFruits()[indexPath.row].description
+//            cell.imageView?.image = UIImage(named: fruitObj.sweetFruits()[indexPath.row].profile)
+//
+//        } else if indexPath.section == 1 {
+//            cell.textLabel?.text = fruitObj.spicyFruits()[indexPath.row].name
+//            cell.detailTextLabel?.text = fruitObj.spicyFruits()[indexPath.row].description
+//            cell.imageView?.image = UIImage(named: fruitObj.spicyFruits()[indexPath.row].profile)
+//        }else {
+//            cell.textLabel?.text = fruitObj.vegetables()[indexPath.row].name
+//            cell.detailTextLabel?.text = fruitObj.vegetables()[indexPath.row].description
+//            cell.imageView?.image = UIImage(named: fruitObj.vegetables()[indexPath.row].profile)
+//        }
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath) as! TableViewCell
+        
         
         if indexPath.section == 0 {
-            cell.textLabel?.text = fruitObj.sweetFruits()[indexPath.row].name
-            cell.detailTextLabel?.text = fruitObj.sweetFruits()[indexPath.row].description
-            cell.imageView?.image = UIImage(named: fruitObj.sweetFruits()[indexPath.row].profile)
+            cell.labelName.text = fruitObj.sweetFruits()[indexPath.row].name
+            cell.txtLabel.text = fruitObj.sweetFruits()[indexPath.row].description
+            cell.profileImage.image = UIImage(named: fruitObj.sweetFruits()[indexPath.row].profile)
 
         } else if indexPath.section == 1 {
-            cell.textLabel?.text = fruitObj.spicyFruits()[indexPath.row].name
-            cell.detailTextLabel?.text = fruitObj.spicyFruits()[indexPath.row].description
-            cell.imageView?.image = UIImage(named: fruitObj.spicyFruits()[indexPath.row].profile)
+            cell.labelName.text = fruitObj.spicyFruits()[indexPath.row].name
+            cell.txtLabel.text = fruitObj.spicyFruits()[indexPath.row].description
+            cell.profileImage.image = UIImage(named: fruitObj.spicyFruits()[indexPath.row].profile)
         }else {
-            cell.textLabel?.text = fruitObj.vegetables()[indexPath.row].name
-            cell.detailTextLabel?.text = fruitObj.vegetables()[indexPath.row].description
-            cell.imageView?.image = UIImage(named: fruitObj.vegetables()[indexPath.row].profile)
+            cell.labelName.text = fruitObj.vegetables()[indexPath.row].name
+            cell.txtLabel.text = fruitObj.vegetables()[indexPath.row].description
+            cell.profileImage.image = UIImage(named: fruitObj.vegetables()[indexPath.row].profile)
         }
         
         
